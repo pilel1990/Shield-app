@@ -1,12 +1,11 @@
 import { useState } from 'react'
+import { QrCode } from 'lucide-react'
 import { useAuth } from './context/AuthContext'
 import { useApp } from './context/AppContext'
 
 // Auth
 import Onboarding from './components/auth/Onboarding'
 import Login from './components/auth/Login'
-import RegClient from './components/auth/RegClient'
-import RegAgent from './components/auth/RegAgent'
 
 // Client
 import HomeView from './components/client/HomeView'
@@ -15,6 +14,7 @@ import BookingView from './components/client/BookingView'
 import LiveView from './components/client/LiveView'
 import MissionsListView from './components/client/MissionsListView'
 import ClientProfil from './components/client/ClientProfil'
+import SearchView from './components/client/SearchView'
 
 // Agent
 import AgentDash from './components/agent/AgentDash'
@@ -24,7 +24,8 @@ import ProfilView from './components/agent/ProfilView'
 // Shared
 import Toast from './components/shared/Toast'
 import BottomNav from './components/shared/BottomNav'
-import Header from './components/shared/Header'
+import ErrorBoundary from './components/shared/ErrorBoundary'
+import QRCodePage from './components/shared/QRCodePage'
 
 // Auth flow screens
 const AUTH_SCREENS = {
@@ -113,6 +114,7 @@ function ClientApp() {
   const [selectedAgent, setSelectedAgent] = useState(null)
   const [currentMission, setCurrentMission] = useState(null)
   const [view, setView] = useState('main') // main | agent | booking | live
+  const [showQR, setShowQR] = useState(false)
 
   const handleBookAgent = (agent) => {
     setSelectedAgent(agent)
@@ -175,18 +177,19 @@ function ClientApp() {
         />
       )}
       {tab === 'search' && (
-        <HomeView
+        <SearchView
           onBookAgent={handleBookAgent}
           onViewAgent={handleViewAgent}
-          onViewMission={handleViewMission}
         />
       )}
       {tab === 'missions' && (
         <MissionsListView onViewMission={handleViewMission} />
       )}
-      {tab === 'profil' && <ClientProfil />}
+      {tab === 'profil' && <ClientProfil onShowQR={() => setShowQR(true)} />}
 
       <BottomNav activeTab={tab} onTabChange={setTab} role="client" />
+
+      {showQR && <QRCodePage onClose={() => setShowQR(false)} />}
     </div>
   )
 }
@@ -233,6 +236,7 @@ function AgentApp() {
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
+
   const { user, loading } = useAuth()
 
   if (loading) {

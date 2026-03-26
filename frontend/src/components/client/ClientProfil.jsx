@@ -1,10 +1,10 @@
-import { Shield, User, Phone, MapPin, LogOut, ChevronRight, FileText, Star } from 'lucide-react'
+import { Shield, User, Phone, MapPin, LogOut, ChevronRight, FileText, Star, QrCode } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useApp } from '../../context/AppContext'
 import { MOCK_MISSIONS } from '../../services/mockData'
 import { formatGNFSimple } from '../../constants/tarifs'
 
-export default function ClientProfil() {
+export default function ClientProfil({ onShowQR }) {
   const { user, logout } = useAuth()
   const { showToast } = useApp()
 
@@ -62,8 +62,9 @@ export default function ClientProfil() {
           { icon: <FileText size={18} className="text-blue-400" />, label: 'Historique complet', count: totalMissions },
           { icon: <Star size={18} className="text-yellow-400" />, label: 'Mes avis' },
           { icon: <Shield size={18} className="text-green-400" />, label: 'Sécurité du compte' },
+          { icon: <QrCode size={18} className="text-purple-400" />, label: 'Partager l\'app', action: onShowQR },
         ].map(item => (
-          <button key={item.label}
+          <button key={item.label} onClick={item.action}
             className="w-full flex items-center gap-3 bg-gray-800 rounded-2xl p-4 border border-gray-700/50 hover:border-gray-600 transition-all">
             {item.icon}
             <span className="flex-1 text-white text-sm font-medium text-left">{item.label}</span>

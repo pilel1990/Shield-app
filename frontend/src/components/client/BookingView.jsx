@@ -21,7 +21,13 @@ export default function BookingView({ agent: initialAgent, onBack, onSuccess }) 
   const [selectedAgent, setSelectedAgent] = useState(initialAgent)
   const [payRef, setPayRef] = useState(null)
 
-  const [form, setForm] = useState({
+  // Restaurer depuis sessionStorage si dispo (persistance sur refresh)
+  const DRAFT_KEY = 'shieldapp_booking_draft'
+  const savedDraft = (() => {
+    try { return JSON.parse(sessionStorage.getItem(DRAFT_KEY)) } catch { return null }
+  })()
+
+  const [form, setForm] = useState(savedDraft || {
     type: initialAgent?.mission_types?.[0] || 'garde_corps_vip',
     urgence: 'normal',
     duree_heures: MIN_HEURES,
@@ -32,7 +38,11 @@ export default function BookingView({ agent: initialAgent, onBack, onSuccess }) 
     paymentPhone: user?.phone || '',
   })
 
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+  const set = (k, v) => setForm(f => {
+    const updated = { ...f, [k]: v }
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify(updated))
+    return updated
+  })
 
   const tarif = TARIFS[form.type] || TARIFS['garde_corps_vip']
   const prixBase = (tarif.prix_heure || 0) * form.duree_heures
@@ -91,6 +101,7 @@ export default function BookingView({ agent: initialAgent, onBack, onSuccess }) 
       }, token)
 
       setPayRef(pay.reference)
+      sessionStorage.removeItem(DRAFT_KEY) // effacer le brouillon
       setStep(3)
       showToast('Mission créée et paiement initié !', 'success')
     } catch (e) {

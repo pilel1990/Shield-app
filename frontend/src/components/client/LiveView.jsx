@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { ChevronLeft, MapPin, Phone, MessageSquare, Clock, CheckCircle, Shield, Star, Send, AlertTriangle } from 'lucide-react'
+import { ChevronLeft, MapPin, Phone, CheckCircle, Shield, Star, Send } from 'lucide-react'
 import AgentPhoto from '../shared/AgentPhoto'
 import { useAuth } from '../../context/AuthContext'
 import { useApp } from '../../context/AppContext'
 import { completeMission, sendMessage, rateAgent } from '../../services/api'
 import { TARIFS, formatGNFSimple } from '../../constants/tarifs'
 import { MOCK_MESSAGES } from '../../services/mockData'
+import { useDemoRealtime, useDemoAgentMessages } from '../../hooks/useDemoRealtime'
 
 const MISSION_STEPS_LABELS = [
   { key: 'pending', label: 'En attente', icon: '⏳' },
@@ -30,6 +31,16 @@ export default function LiveView({ mission: initialMission, onBack }) {
   const agent = mission?.agent
   const tarif = TARIFS[mission?.type]
   const stepIdx = MISSION_STEPS_LABELS.findIndex(s => s.key === mission?.statut)
+
+  // Simulation temps réel en mode démo
+  useDemoRealtime(mission, (updated) => {
+    setMission(updated)
+    const labels = { accepted: 'Agent en route ! ✅', active: 'Mission démarrée 🔴' }
+    if (labels[updated.statut]) showToast(labels[updated.statut], 'success')
+  })
+  useDemoAgentMessages(mission?.id, mission?.statut, (msg) => {
+    setMessages(m => [...m, msg])
+  })
 
   // Timer si mission active
   useEffect(() => {
