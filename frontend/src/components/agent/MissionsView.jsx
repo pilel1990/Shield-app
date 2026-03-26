@@ -27,6 +27,11 @@ export default function MissionsView({ onViewMission }) {
   const updateStatut = (id, statut) =>
     setMissions(ms => ms.map(m => m.id === id ? { ...m, statut } : m))
 
+  const handleRefuse = (mission) => {
+    updateStatut(mission.id, 'cancelled')
+    showToast('Mission refusée', 'info')
+  }
+
   const handleAccept = async (mission) => {
     setActionLoading(mission.id + '_accept')
     try {
@@ -92,6 +97,7 @@ export default function MissionsView({ onViewMission }) {
               mission={mission}
               onView={() => onViewMission(mission)}
               onAccept={() => handleAccept(mission)}
+              onRefuse={() => handleRefuse(mission)}
               onStart={() => handleStart(mission)}
               onComplete={() => handleComplete(mission)}
               actionLoading={actionLoading}
@@ -103,7 +109,7 @@ export default function MissionsView({ onViewMission }) {
   )
 }
 
-function MissionDetailCard({ mission, onView, onAccept, onStart, onComplete, actionLoading }) {
+function MissionDetailCard({ mission, onView, onAccept, onRefuse, onStart, onComplete, actionLoading }) {
   const tarif = TARIFS[mission.type]
 
   return (
@@ -161,9 +167,7 @@ function MissionDetailCard({ mission, onView, onAccept, onStart, onComplete, act
                 : <><CheckCircle size={14} /> Accepter</>}
             </button>
             <button
-              onClick={() => {
-                setMissions(ms => ms.map(m => m.id === mission.id ? { ...m, statut: 'cancelled' } : m))
-              }}
+              onClick={onRefuse}
               className="flex-1 py-2.5 bg-gray-700 hover:bg-red-900/30 text-red-400 text-sm font-medium rounded-xl flex items-center justify-center gap-1 transition-all">
               <XCircle size={14} /> Refuser
             </button>

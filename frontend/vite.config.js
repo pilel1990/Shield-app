@@ -1,6 +1,14 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/',
-  // other configuration settings
-});
+  plugins: [react()],
+  base: '/shield-app/',
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+  },
+  server: {
+    port: 3000,
+  },
+})
