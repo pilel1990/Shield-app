@@ -14,7 +14,8 @@ export default function AgentDash({ onViewMission }) {
   const [available, setAvailable] = useState(user?.available ?? true)
   const [loading, setLoading] = useState(false)
 
-  const myMissions = MOCK_MISSIONS.filter(m => m.agent_id === user?.id || true)
+  // En mode démo, on affiche toutes les missions pour la démonstration
+  const myMissions = MOCK_MISSIONS.filter(m => !user?.id || m.agent_id === user.id || true)
   const pending = myMissions.filter(m => m.statut === 'pending')
   const active = myMissions.filter(m => m.statut === 'active')
   const completed = myMissions.filter(m => m.statut === 'completed')

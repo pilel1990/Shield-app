@@ -143,7 +143,7 @@ export default function ProfilView() {
             { label: 'Badge ONPSEC', valid: true },
             { label: 'Formation sécurité', valid: true },
             { label: "Port d'arme", valid: user?.armed },
-          ].filter(c => c.valid !== false || c.valid).map(cert => (
+          ].filter(c => c.valid).map(cert => (
             <div key={cert.label} className="flex items-center gap-2 py-2 border-b border-gray-700 last:border-0">
               <Award size={16} className={cert.valid ? 'text-yellow-400' : 'text-gray-600'} />
               <span className={`text-sm ${cert.valid ? 'text-white' : 'text-gray-600'}`}>{cert.label}</span>

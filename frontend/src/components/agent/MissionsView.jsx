@@ -160,7 +160,11 @@ function MissionDetailCard({ mission, onView, onAccept, onStart, onComplete, act
                 ? <Loader size={16} className="animate-spin" />
                 : <><CheckCircle size={14} /> Accepter</>}
             </button>
-            <button className="flex-1 py-2.5 bg-gray-700 hover:bg-red-900/30 text-red-400 text-sm font-medium rounded-xl flex items-center justify-center gap-1 transition-all">
+            <button
+              onClick={() => {
+                setMissions(ms => ms.map(m => m.id === mission.id ? { ...m, statut: 'cancelled' } : m))
+              }}
+              className="flex-1 py-2.5 bg-gray-700 hover:bg-red-900/30 text-red-400 text-sm font-medium rounded-xl flex items-center justify-center gap-1 transition-all">
               <XCircle size={14} /> Refuser
             </button>
           </>

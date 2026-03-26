@@ -34,8 +34,8 @@ export default function BookingView({ agent: initialAgent, onBack, onSuccess }) 
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
-  const tarif = TARIFS[form.type]
-  const prixBase = tarif?.prix_heure * form.duree_heures || 0
+  const tarif = TARIFS[form.type] || TARIFS['garde_corps_vip']
+  const prixBase = (tarif.prix_heure || 0) * form.duree_heures
   const majoration = form.urgence === 'urgent' ? MAJORATION_URGENT : form.urgence === 'immediat' ? MAJORATION_IMMEDIAT : 0
   const prixMajore = Math.round(prixBase * (1 + majoration))
   const fraisService = Math.round(prixMajore * FRAIS_SERVICE_CLIENT)
