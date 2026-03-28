@@ -33,6 +33,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   </head>
   <body class="bg-gray-900">
+    <div id="app-loader" style="position:fixed;inset:0;background:#111827;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;font-family:system-ui,sans-serif;">
+      <div style="width:48px;height:48px;border:3px solid #374151;border-top-color:#DC2626;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+      <p style="color:#9CA3AF;font-size:14px;margin:0;letter-spacing:0.05em;">ShieldApp</p>
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

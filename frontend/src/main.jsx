@@ -16,6 +16,8 @@ const queryClient = new QueryClient({
   },
 })
 
+document.getElementById('app-loader')?.remove()
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ErrorBoundary>
