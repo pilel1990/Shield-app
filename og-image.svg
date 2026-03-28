@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#111827"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F2937"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield icon -->
+  <path d="M600 140L480 190v120c0 80 56 148 120 166 64-18 120-86 120-166V190L600 140z" fill="#DC2626"/>
+  <path d="M600 168L504 212v98c0 64 42 112 96 128 54-16 96-64 96-128V212L600 168z" fill="#991B1B"/>
+  <path d="M575 280l20 20 40-40" stroke="white" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Text -->
+  <text x="600" y="430" font-family="Inter, sans-serif" font-size="72" font-weight="800" fill="white" text-anchor="middle">Shield<tspan fill="#DC2626">App</tspan></text>
+  <text x="600" y="500" font-family="Inter, sans-serif" font-size="32" fill="#9CA3AF" text-anchor="middle">Sécurité privée à la demande — Conakry, Guinée 🇬🇳</text>
+</svg>
